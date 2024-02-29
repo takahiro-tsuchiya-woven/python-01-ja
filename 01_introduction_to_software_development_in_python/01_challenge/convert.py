@@ -20,7 +20,7 @@ num2 = float("1.68")
 num3 = int("9")
 num4 = float("-2.5")
 num5 = int("-1")
-print("各数値の値は ",num1, ",", num2, ",",num3, ",",num4, ",",num5)
+#print("各数値の値は ",num1, ",", num2, ",",num3, ",",num4, ",",num5)
 
 sum = num1 + num2 + num3 + num4 + num5
-print("合計は ", sum)
+print(sum)
