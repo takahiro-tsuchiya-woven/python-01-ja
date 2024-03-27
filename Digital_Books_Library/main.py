@@ -83,6 +83,33 @@ def delete_book():
 def view_lib_stats():
     pass
 
+# Display all book
+def display_all_book(books_list):
+    # Get column names
+    fields = books_list[0].keys()
+
+    # get the max title length
+    max_title_length = 5
+    for row in books_list:
+        title_length = len(row['title'])
+        if title_length > max_title_length:
+            max_title_length = title_length
+    # print(max_title_length)
+
+    # {'id': 9, 'title': maxt_title_length, 'read_status': 11}
+    column_length = {'id': 9, 'title': max_title_length, 'read_status': 11}
+
+    # display column names
+    for field in fields:
+        print(f"{field:<{column_length[field]}}", end=" ")
+    print()
+
+    # display data
+    for row in books_list:
+        for data in row.items():
+            print(f"{data[1]:<{column_length[data[0]]}}", end=" ")
+        print()
+
 # Display first message
 def display_first_message():
     print("""
@@ -132,6 +159,8 @@ while True:
     elif user_input == '6':
         print("Thank you. Closed.")
         break
+    elif user_input == '7':
+        display_all_book(books_list)
     else:
         print("""
 ****************************************
