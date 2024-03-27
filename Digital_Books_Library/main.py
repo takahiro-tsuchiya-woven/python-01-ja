@@ -27,48 +27,49 @@ def add_book():
 
 
 # Editing a book
-def edit_book(book):
-    # editing title
-    input_edit_title = input("Would you like to edit a title?: y or n\n")
+def edit_book(book_dict):
     
     while True:
+        # editing title
+        input_edit_title = input("Would you like to edit a title?: y or n\n")
+        
         if input_edit_title == 'y':
-            change_title = input("Please input new title: ")
-
             while True:
+                change_title = input("Please input new title: ")
+
                 if change_title == "":
                     print("Book title is empty.")
                     continue
                 break
 
-            book['title'] = change_title
+            book_dict['title'] = change_title
             break
         elif input_edit_title == 'n':
             break
         else:
             print("Invalid input. Please enter 'y' or 'n'.")
-    
-    # editing read status
-    input_edit_read_status = input("Would you like to edit a read status?: y or n\n")
 
     while True:
-        if input_edit_read_status == 'y':
-            change_read_status = input("Please input new read status: 0(Unread) or 1(Readed)\n")
+        # editing read status
+        input_edit_read_status = input("Would you like to edit a read status?: y or n\n")
 
+        if input_edit_read_status == 'y':
             while True:
+                change_read_status = input("Please input new read status: 0(Unread) or 1(Readed)\n")
+
                 if change_read_status not in ['0', '1']:
                     print("Invalid input. Please enter '0' or '1'.")
                     continue
                 break
 
-            book['read_status'] = change_read_status
+            book_dict['read_status'] = change_read_status
             break
         elif input_edit_read_status == 'n':
             break
         else:
             print("Invalid input. Please enter 'y' or 'n'.")
 
-    return
+    return book_dict
 
 
 # Searching a book
@@ -76,8 +77,12 @@ def search_book():
     pass
 
 # Deleting a book
-def delete_book():
-    pass
+def delete_book(books_list, del_index):
+    del books_list[del_index]
+    return books_list
+
+
+    
 
 # Viewing library stats
 def view_lib_stats():
@@ -109,6 +114,16 @@ def display_all_book(books_list):
         for data in row.items():
             print(f"{data[1]:<{column_length[data[0]]}}", end=" ")
         print()
+
+# get books list and index from 'id' key
+def get_book_index_from_id(books_list, num_string):
+    index = 0
+    for book in books_list:
+        if book["id"] == int(num_string):
+            return book, index
+        index += 1
+    return None
+
 
 # Display first message
 def display_first_message():
@@ -148,12 +163,51 @@ while True:
             print("Books list is empty. Please add some books to books list.")
             continue
 
-        edit_book(books_list[0])
-        print(books_list)
+        elif len(books_list) > 0:
+            display_all_book(books_list)
+
+            all_keys = str(list(data['id'] for data in books_list))
+
+            while True:
+                # chose the id that you want to edit
+                user_input_edit_book_id = input("Please choose the ID that you want to edit: ")
+
+                if user_input_edit_book_id in all_keys:
+                    edit_book_dict, edit_index = get_book_index_from_id(books_list, user_input_edit_book_id)
+                    # print("edit_book_dict", edit_book_dict, "edit_index", edit_index, "type", type(edit_index))
+                    # print(books_list[edit_index], type(books_list[edit_index]))
+                    edit_book(books_list[edit_index])
+                    break
+                elif user_input_edit_book_id not in all_keys:
+                    print("Invalid input. Please input .")
+                    continue
+
     elif user_input == '3':
         search_book()
+
     elif user_input == '4':
-        delete_book()
+        if len(books_list) == 0:
+            print("Books list is empty. Please add some books to books list.")
+            continue
+
+        elif len(books_list) > 0:
+            display_all_book(books_list)
+
+            all_keys = str(list(data['id'] for data in books_list))
+
+            while True:
+                # chose the id that you want to delete
+                user_input_delete_book_id = input("Please choose the ID that you want to delete: ")
+
+                if user_input_delete_book_id in all_keys:
+                    delete_book_dict, delete_index = get_book_index_from_id(books_list, user_input_delete_book_id)
+                    delete_book(books_list, delete_index)
+                    print("books_list", books_list)
+                    break
+                elif user_input_delete_book_id not in all_keys:
+                    print("Invalid input. Please input .")
+                    continue
+
     elif user_input == '5':
         view_lib_stats()
     elif user_input == '6':
@@ -161,6 +215,8 @@ while True:
         break
     elif user_input == '7':
         display_all_book(books_list)
+        all_keys = list(data['id'] for data in books_list)
+        print(all_keys)
     else:
         print("""
 ****************************************
