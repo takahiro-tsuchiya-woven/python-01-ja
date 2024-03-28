@@ -16,6 +16,7 @@ def add_book():
         if add_book_read_status != '0' and add_book_read_status != '1':
             print("A number other than 0 or 1 was selected.")
             continue
+        add_book_read_status = bool(int(add_book_read_status))
         break
 
     #id
@@ -62,7 +63,7 @@ def edit_book(book_dict):
                     continue
                 break
 
-            book_dict['read_status'] = change_read_status
+            book_dict['read_status'] = bool(int(change_read_status))
             break
         elif input_edit_read_status == 'n':
             break
@@ -101,8 +102,26 @@ def delete_book(books_list, del_index):
     return books_list
 
 # Viewing library stats
-def view_lib_stats():
-    pass
+def view_lib_stats(books_list):
+    # Stats info
+    # total books
+    # total readed books
+    # total unreaded books
+    # read ratio (readed / total * 100)
+    # all books
+
+    total_books = len(books_list)
+    read_books = len([book for book in books_list if book["read_status"] == True])
+    unread_books = len([book for book in books_list if book["read_status"] == False])
+    read_ratio = read_books / total_books * 100
+
+    print(f"Total books: {total_books}")
+    print(f"Read books: {read_books}")
+    print(f"Unread books: {unread_books}")
+    print(f"Read ratio {read_ratio}%")
+    print("-- All book info --")
+    display_all_book(books_list)
+
 
 # Display all book
 def display_all_book(books_list):
@@ -128,7 +147,7 @@ def display_all_book(books_list):
     # display data
     for row in books_list:
         for data in row.items():
-            print(f"{data[1]:<{column_length[data[0]]}}", end=" ")
+            print(f"{str(data[1]):<{column_length[data[0]]}}", end=" ")
         print()
 
 # get books list and index from 'id' key
@@ -174,9 +193,10 @@ while True:
     if user_input == '1':
         books_list.append(add_book())
         print(books_list)
+
     elif user_input == '2':
         if len(books_list) == 0:
-            print("Books list is empty. Please add some books to books list.")
+            print("Books list is empty. Please add an book to books list.")
             continue
 
         elif len(books_list) > 0:
@@ -229,14 +249,17 @@ while True:
                     continue
 
     elif user_input == '5':
-        view_lib_stats()
+        if len(books_list) == 0:
+            print("Books list is empty. Please add some books to books list.")
+            continue
+
+        elif len(books_list) > 0:
+            view_lib_stats(books_list)
+
     elif user_input == '6':
         print("Thank you. Closed.")
         break
-    elif user_input == '7':
-        display_all_book(books_list)
-        all_keys = list(data['id'] for data in books_list)
-        print(all_keys)
+
     else:
         print("""
 ****************************************
