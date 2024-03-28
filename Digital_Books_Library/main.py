@@ -73,16 +73,32 @@ def edit_book(book_dict):
 
 
 # Searching a book
-def search_book():
-    pass
+def search_book(books_list):
+    while True:
+        user_input_search_name = input("Please input the word that you want to search.\n")
+        if user_input_search_name == "":
+            continue
+        break
+
+    search_result = []
+
+    for row in books_list:
+        if user_input_search_name in row["title"]:
+            search_result.append(row)
+    
+    if len(search_result) == 0:
+        print("There are no titles containing " + user_input_search_name + ".")
+    elif len(search_result) > 0:
+        print("The following is the results.")
+        display_all_book(search_result)
+    
+    return search_result
+
 
 # Deleting a book
 def delete_book(books_list, del_index):
     del books_list[del_index]
     return books_list
-
-
-    
 
 # Viewing library stats
 def view_lib_stats():
@@ -183,7 +199,11 @@ while True:
                     continue
 
     elif user_input == '3':
-        search_book()
+        if len(books_list) == 0:
+            print("Books list is empty. Please add some books to books list.")
+            continue
+        elif len(books_list) > 0:
+            search_book(books_list)
 
     elif user_input == '4':
         if len(books_list) == 0:
