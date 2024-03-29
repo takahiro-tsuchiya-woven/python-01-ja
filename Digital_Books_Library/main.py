@@ -88,7 +88,7 @@ def search_book(books_list):
     if len(search_result) == 0:
         print("There are no titles containing " + user_input_search_name + ".")
     elif len(search_result) > 0:
-        print("The following is the results.")
+        print("The results:")
         display_all_book(search_result)
     
     return search_result
@@ -189,7 +189,7 @@ while True:
 
     if user_input == '1':
         books_list.append(add_book())
-        print(books_list)
+        # print(books_list)
 
     elif user_input == '2':
         if len(books_list) == 0:
