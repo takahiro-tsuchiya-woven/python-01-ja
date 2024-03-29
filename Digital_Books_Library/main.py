@@ -19,13 +19,12 @@ def add_book():
         add_book_read_status = bool(int(add_book_read_status))
         break
 
-    #id
+    #　id
     global last_book_id
     add_book_id = last_book_id + 1
     last_book_id = add_book_id
 
     return {'id': add_book_id, 'title': add_book_title, 'read_status': add_book_read_status}
-
 
 # Editing a book
 def edit_book(book_dict):
@@ -72,7 +71,6 @@ def edit_book(book_dict):
 
     return book_dict
 
-
 # Searching a book
 def search_book(books_list):
     while True:
@@ -94,7 +92,6 @@ def search_book(books_list):
         display_all_book(search_result)
     
     return search_result
-
 
 # Deleting a book
 def delete_book(books_list, del_index):
@@ -122,21 +119,21 @@ def view_lib_stats(books_list):
     print("-- All book info --")
     display_all_book(books_list)
 
-
 # Display all book
 def display_all_book(books_list):
     # Get column names
     fields = books_list[0].keys()
 
     # get the max title length
+    # 5 is the length or "title"
     max_title_length = 5
     for row in books_list:
         title_length = len(row['title'])
         if title_length > max_title_length:
             max_title_length = title_length
-    # print(max_title_length)
 
     # {'id': 9, 'title': maxt_title_length, 'read_status': 11}
+    # need to increase the number from 9 to more then 10, if ID exceeds 9 digits number
     column_length = {'id': 9, 'title': max_title_length, 'read_status': 11}
 
     # display column names
@@ -158,7 +155,6 @@ def get_book_index_from_id(books_list, num_string):
             return book, index
         index += 1
     return None
-
 
 # Display first message
 def display_first_message():
@@ -182,6 +178,7 @@ books_list = []
 # Global variable
 last_book_id = 0
 
+# ex. book data
 # book1 = {'id': 1, 'title': 'AAA', 'read_status': False}
 # book2 = {'id': 2, 'title': 'BBB', 'read_status': True}
 # book3 = {'id': 3, 'title': 'CCC', 'read_status': False}
@@ -242,7 +239,6 @@ while True:
                 if user_input_delete_book_id in all_keys:
                     delete_book_dict, delete_index = get_book_index_from_id(books_list, user_input_delete_book_id)
                     delete_book(books_list, delete_index)
-                    print("books_list", books_list)
                     break
                 elif user_input_delete_book_id not in all_keys:
                     print("Invalid input. Please input .")
